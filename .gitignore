@@ -25,3 +25,6 @@ proguard/
 
 # Log Files
 *.log
+
+#NPM
+node_modules/

@@ -7,6 +7,6 @@
   },
   "dependencies": {
     "react-native": "^0.15.0",
-    "react-native-lock-android": "^0.0.1"
+    "react-native-lock-android": "file:../../"
   }
 }

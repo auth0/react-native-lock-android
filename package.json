@@ -1,11 +1,33 @@
 {
-  "name": "AwesomeProject",
+  "name": "react-native-lock-android",
   "version": "0.0.1",
-  "private": true,
+  "description": "Auth0 Lock for React Native (Android)",
+  "main": "auth0-lock.js",
   "scripts": {
-    "start": "react-native start"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/auth0/react-native-lock-android.git"
+  },
+  "keywords": [
+    "react-native",
+    "auth0",
+    "auth0-lock",
+    "lock",
+    "authentication",
+    "jwt",
+    "ios",
+    "touchid",
+    "passwordless"
+  ],
   "dependencies": {
-    "react-native": "^0.14.2"
-  }
+    "react-native": "^0.15.0"
+  },
+  "author": "Auth0",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/auth0/react-native-lock-android/issues"
+  },
+  "homepage": "https://github.com/auth0/react-native-lock-android#readme"
 }

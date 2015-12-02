@@ -25,9 +25,13 @@
 package com.auth0.android.reactnative.bridge;
 
 
+import android.support.annotation.Nullable;
+
 import com.auth0.core.UserProfile;
 import com.facebook.react.bridge.Arguments;
 import com.facebook.react.bridge.WritableMap;
+
+import java.text.SimpleDateFormat;
 
 public class UserProfileBridge implements LockReactBridge {
 
@@ -39,7 +43,7 @@ public class UserProfileBridge implements LockReactBridge {
 
     private UserProfile profile;
 
-    public UserProfileBridge(UserProfile profile) {
+    public UserProfileBridge(@Nullable UserProfile profile) {
         this.profile = profile;
     }
 
@@ -51,7 +55,9 @@ public class UserProfileBridge implements LockReactBridge {
             profileMap.putString(ID_KEY, profile.getId());
             profileMap.putString(NAME_KEY, profile.getName());
             profileMap.putString(NICKNAME_KEY, profile.getNickname());
-            profileMap.putString(CREATED_AT_KEY, profile.getCreatedAt().toString());
+            // use ISO 8601 international standard date/time format
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
+            profileMap.putString(CREATED_AT_KEY, simpleDateFormat.format(profile.getCreatedAt()));
         }
         return profileMap;
     }

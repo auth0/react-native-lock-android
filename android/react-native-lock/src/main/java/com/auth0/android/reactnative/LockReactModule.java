@@ -31,16 +31,16 @@ import android.support.annotation.NonNull;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 
+import com.auth0.android.reactnative.bridge.InitOptions;
 import com.auth0.android.reactnative.bridge.ShowOptions;
+import com.auth0.android.reactnative.bridge.TokenBridge;
+import com.auth0.android.reactnative.bridge.UserProfileBridge;
 import com.auth0.core.Token;
 import com.auth0.core.UserProfile;
 import com.auth0.lock.Lock;
 import com.auth0.lock.LockActivity;
 import com.auth0.lock.LockContext;
 import com.auth0.lock.passwordless.LockPasswordlessActivity;
-import com.auth0.android.reactnative.bridge.InitOptions;
-import com.auth0.android.reactnative.bridge.TokenBridge;
-import com.auth0.android.reactnative.bridge.UserProfileBridge;
 import com.auth0.lock.receiver.AuthenticationReceiver;
 import com.facebook.react.bridge.Callback;
 import com.facebook.react.bridge.ReactApplicationContext;
@@ -122,12 +122,6 @@ public class LockReactModule extends ReactContextBaseJavaModule {
                 .clientId(initOptions.getClientId())
                 .domainUrl(initOptions.getDomain())
                 .configurationUrl(initOptions.getConfigurationDomain());
-    }
-
-    @ReactMethod
-    public void nativeIntegrations(ReadableMap options) {
-        // NO SE QUE FORMA TIENE ESTO
-        // facebook, googleplus, etc?
     }
 
     @ReactMethod

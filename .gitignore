@@ -28,3 +28,9 @@ proguard/
 
 #NPM
 node_modules/
+
+# Android Studio
+*.iml
+
+# OSX
+.DS_Store

@@ -67,6 +67,7 @@ public class LockReactModule extends ReactContextBaseJavaModule {
     private static final String SMS_VALUE = "sms";
     private static final String SMS_MAGIC_LINK_KEY = "SMS_MAGIC_LINK";
     private static final String SMS_MAGIC_LINK_VALUE = "sms_magic_link";
+    private final LocalBroadcastManager broadcastManager;
 
     Lock.Builder lockBuilder;
 
@@ -94,7 +95,12 @@ public class LockReactModule extends ReactContextBaseJavaModule {
     };
 
     public LockReactModule(ReactApplicationContext reactContext) {
-        super(reactContext);
+        this(reactContext, LocalBroadcastManager.getInstance(reactContext.getApplicationContext()));
+    }
+
+    LockReactModule(ReactApplicationContext reactApplicationContext, LocalBroadcastManager localBroadcastManager) {
+        super(reactApplicationContext);
+        this.broadcastManager = localBroadcastManager;
     }
 
     @Override
@@ -128,7 +134,7 @@ public class LockReactModule extends ReactContextBaseJavaModule {
     public void show(ReadableMap options, Callback callback) {
         Context context = getReactApplicationContext();
         authCallback = callback;
-        authenticationReceiver.registerIn(LocalBroadcastManager.getInstance(context));
+        authenticationReceiver.registerIn(this.broadcastManager);
 
         ShowOptions showOptions = new ShowOptions(options);
 
@@ -141,6 +147,15 @@ public class LockReactModule extends ReactContextBaseJavaModule {
         String connectionName = showOptions.getConnectionName();
         Intent intent = null;
 
+        /*
+        {
+            "connections": ["sms"],
+            "useMagicLink": true
+        }
+        {
+            "connections": ["facebook", "twitter", "Username-Password-Authentication"]
+        }
+         */
         switch (connectionName) {
             case NATIVE_VALUE:
                 intent = new Intent(context, LockActivity.class);
@@ -185,7 +200,7 @@ public class LockReactModule extends ReactContextBaseJavaModule {
             return false;
         }
 
-        authenticationReceiver.unregisterFrom(LocalBroadcastManager.getInstance(getReactApplicationContext()));
+        authenticationReceiver.unregisterFrom(this.broadcastManager);
 
         UserProfileBridge userProfileBridge = new UserProfileBridge(profile);
         TokenBridge tokenBridge = new TokenBridge(token);

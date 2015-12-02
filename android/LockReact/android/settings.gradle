@@ -2,4 +2,4 @@ rootProject.name = 'LockReact'
 
 include ':app'
 include ':react-native-lock'
-project(':react-native-lock').projectDir = new File('../../react-native-lock')
+project(':react-native-lock').projectDir = new File(rootProject.projectDir, '../../react-native-lock')

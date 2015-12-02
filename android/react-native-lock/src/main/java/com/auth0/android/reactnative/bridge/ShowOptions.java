@@ -25,6 +25,7 @@
 package com.auth0.android.reactnative.bridge;
 
 
+import android.support.annotation.Nullable;
 import android.util.Log;
 
 import com.facebook.react.bridge.ReadableArray;
@@ -46,11 +47,14 @@ public class ShowOptions {
     private Map<String, Object> authParams;
     private String connectionName;
 
-    public ShowOptions(ReadableMap options) {
+    public ShowOptions(@Nullable ReadableMap options) {
+        if (options == null) {
+            return;
+        }
 
         if (options.hasKey(CLOSABLE_KEY)) {
             closable = options.getBoolean(CLOSABLE_KEY);
-            Log.d(TAG, "closable: " + closable);
+            Log.d(TAG, CLOSABLE_KEY + closable);
         }
 
         if (options.hasKey(AUTH_PARAMS_KEY)) {
@@ -84,7 +88,7 @@ public class ShowOptions {
                 }
                 authParams.put(key, object);
             }
-            Log.d(TAG, "authParams: " + authParams);
+            Log.d(TAG, AUTH_PARAMS_KEY + authParams);
         }
 
         // connections
@@ -96,7 +100,7 @@ public class ShowOptions {
             } else {
                 connectionName = connections.getString(0);
             }
-            Log.d(TAG, "connections: " + connectionName);
+            Log.d(TAG, CONNECTIONS_KEY + connectionName);
         }
     }
 

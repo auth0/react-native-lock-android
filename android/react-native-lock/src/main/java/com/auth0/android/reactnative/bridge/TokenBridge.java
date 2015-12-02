@@ -25,6 +25,8 @@
 package com.auth0.android.reactnative.bridge;
 
 
+import android.support.annotation.Nullable;
+
 import com.auth0.core.Token;
 import com.facebook.react.bridge.Arguments;
 import com.facebook.react.bridge.WritableMap;
@@ -34,11 +36,11 @@ public class TokenBridge implements LockReactBridge {
     private static final String ACCESS_TOKEN_KEY = "accessToken";
     private static final String ID_TOKEN_KEY = "idToken";
     private static final String REFRESH_TOKEN_KEY = "refreshToken";
-    private static final String TyPE_KEY = "type";
+    private static final String TYPE_KEY = "type";
     
     private Token token;
 
-    public TokenBridge(Token token) {
+    public TokenBridge(@Nullable Token token) {
         this.token = token;
     }
 
@@ -49,7 +51,7 @@ public class TokenBridge implements LockReactBridge {
             tokenMap.putString(ACCESS_TOKEN_KEY, token.getAccessToken());
             tokenMap.putString(ID_TOKEN_KEY, token.getIdToken());
             tokenMap.putString(REFRESH_TOKEN_KEY, token.getRefreshToken());
-            tokenMap.putString(TyPE_KEY, token.getType());
+            tokenMap.putString(TYPE_KEY, token.getType());
         }
         return tokenMap;
     }

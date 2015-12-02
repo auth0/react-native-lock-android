@@ -25,6 +25,8 @@
 package com.auth0.android.reactnative.bridge;
 
 
+import android.support.annotation.Nullable;
+
 import com.facebook.react.bridge.ReadableMap;
 
 public class InitOptions {
@@ -37,7 +39,11 @@ public class InitOptions {
     private String domain;
     private String configurationDomain;
 
-    public InitOptions(ReadableMap options) {
+    public InitOptions(@Nullable ReadableMap options) {
+        if (options == null) {
+            return;
+        }
+
         if (options.hasKey(CLIENT_ID_KEY)) {
             clientId = options.getString(CLIENT_ID_KEY);
         }

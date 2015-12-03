@@ -25,6 +25,7 @@
 package com.auth0.android.reactnative.bridge;
 
 import com.auth0.android.reactnative.BuildConfig;
+import com.auth0.android.reactnative.LockReactModule;
 import com.facebook.react.bridge.SimpleArray;
 import com.facebook.react.bridge.SimpleMap;
 import com.facebook.react.bridge.WritableMap;
@@ -34,6 +35,11 @@ import org.junit.runner.RunWith;
 import org.robolectric.RobolectricGradleTestRunner;
 import org.robolectric.annotation.Config;
 
+import java.util.Arrays;
+import java.util.Map;
+
+import static org.hamcrest.Matchers.containsInAnyOrder;
+import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.nullValue;
 import static org.junit.Assert.assertThat;
@@ -46,44 +52,76 @@ public class ShowOptionsTest {
     public void testAllNull() throws Exception {
         ShowOptions showOptions = new ShowOptions(null);
         assertThat(showOptions.isClosable(), is(false));
-        assertThat(showOptions.getConnectionName(), is(nullValue()));
+        assertThat(showOptions.useMagicLink(), is(false));
+        assertThat(showOptions.getConnections(), is(nullValue()));
         assertThat(showOptions.getAuthParams(), is(nullValue()));
     }
 
     @Test
-    public void testAll() throws Exception {
-        WritableMap options = new SimpleMap();//Arguments.createMap();
+    public void testAllNative() throws Exception {
+        WritableMap options = new SimpleMap();
         options.putBoolean("closable", true);
+        options.putBoolean("useMagicLink", true);
 
         SimpleArray connections = new SimpleArray();
-        connections.pushString("sms");
+        connections.pushString("facebook");
+        connections.pushString("twitter");
         options.putArray("connections", connections);
 
-        /* TODO SimpleMap doesn't implement getType() and we use it
         SimpleMap authParams = new SimpleMap();
         authParams.putString("string", "string-value");
         authParams.putInt("int", 345);
         authParams.putBoolean("boolean-true", true);
         authParams.putBoolean("boolean-false", false);
         options.putMap("authParams", authParams);
-        */
+
         ShowOptions showOptions = new ShowOptions(options);
         assertThat(showOptions.isClosable(), is(true));
-        assertThat(showOptions.getConnectionName(), is("sms"));
+        assertThat(showOptions.useMagicLink(), is(true));
+        assertThat(showOptions.getConnectionType(), is(equalTo(LockReactModule.CONNECTION_NATIVE)));
+        assertThat(Arrays.asList(showOptions.getConnections()), containsInAnyOrder("twitter", "facebook"));
 
-        /*
         Map<String, Object> authParams2 = showOptions.getAuthParams();
         String stringValue = (String) authParams2.get("string");
-        assertThat(stringValue, is("string-value"));
+        assertThat(stringValue, is(equalTo("string-value")));
 
         int intValue = (int) authParams2.get("int");
-        assertThat(intValue, is(345));
+        assertThat(intValue, is(equalTo(345)));
 
         boolean booleanFalse = (boolean) authParams2.get("boolean-false");
         assertThat(booleanFalse, is(false));
 
         boolean booleanTrue = (boolean) authParams2.get("boolean-true");
         assertThat(booleanTrue, is(true));
-        */
+    }
+
+    @Test
+    public void testEmail() throws Exception {
+        WritableMap options = new SimpleMap();
+
+        SimpleArray connections = new SimpleArray();
+        connections.pushString("email");
+        connections.pushString("facebook");
+        connections.pushString("twitter");
+        options.putArray("connections", connections);
+
+        ShowOptions showOptions = new ShowOptions(options);
+        assertThat(showOptions.getConnectionType(), is(equalTo(LockReactModule.CONNECTION_EMAIL)));
+        assertThat(Arrays.asList(showOptions.getConnections()), containsInAnyOrder("email", "twitter", "facebook"));
+    }
+
+    @Test
+    public void testSms() throws Exception {
+        WritableMap options = new SimpleMap();
+
+        SimpleArray connections = new SimpleArray();
+        connections.pushString("sms");
+        connections.pushString("facebook");
+        connections.pushString("twitter");
+        options.putArray("connections", connections);
+
+        ShowOptions showOptions = new ShowOptions(options);
+        assertThat(showOptions.getConnectionType(), is(equalTo(LockReactModule.CONNECTION_SMS)));
+        assertThat(Arrays.asList(showOptions.getConnections()), containsInAnyOrder("sms", "twitter", "facebook"));
     }
 }

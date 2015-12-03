@@ -83,6 +83,21 @@ public class SimpleMap implements ReadableMap, WritableMap {
 
   @Override
   public ReadableType getType(String name) {
+    Object object = mBackingMap.get(name);
+    if (object == null) {
+      return ReadableType.Null;
+    } else if (object instanceof Boolean) {
+      return ReadableType.Boolean;
+    } else if (object instanceof Integer || object instanceof Float || object instanceof Double) {
+      return ReadableType.Number;
+    } else if (object instanceof String) {
+      return ReadableType.String;
+    } else if (object instanceof SimpleMap) {
+      return ReadableType.Map;
+    } else if (object instanceof SimpleArray) {
+      return ReadableType.Array;
+    }
+
     throw new UnsupportedOperationException("Method not implemented");
   }
 

@@ -43,7 +43,6 @@ import java.util.Map;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.notNullValue;
 import static org.hamcrest.Matchers.nullValue;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.verify;
@@ -101,6 +100,7 @@ public class LockReactModuleTest {
         final Intent intent = captor.getValue();
         final ComponentName component = intent.getComponent();
         assertEquals(component.getClassName(), LockActivity.class.getCanonicalName());
+        assertThat(intent.getFlags(), is(equalTo(Intent.FLAG_ACTIVITY_NEW_TASK)));
     }
 
     @Test
@@ -114,12 +114,13 @@ public class LockReactModuleTest {
                 is(equalTo(LockPasswordlessActivity.MODE_EMAIL_CODE)));
         final ComponentName component = intent.getComponent();
         assertEquals(component.getClassName(), LockPasswordlessActivity.class.getCanonicalName());
+        assertThat(intent.getFlags(), is(equalTo(Intent.FLAG_ACTIVITY_NEW_TASK)));
     }
 
     @Test
     public void shouldStartPasswordlessEmailActivityMagicLink() throws Exception {
         module.init(initOptions("CLIENT_ID", "samples.auth0.com", null));
-        module.show(showOptions(false, true, new String[]{"email", "twitter"}), callback);
+        module.show(showOptions(false, true, new String[]{"linkedin", "email", "twitter"}), callback);
         ArgumentCaptor<Intent> captor = ArgumentCaptor.forClass(Intent.class);
         verify(reactContext).startActivity(captor.capture());
         final Intent intent = captor.getValue();
@@ -127,6 +128,7 @@ public class LockReactModuleTest {
                 is(equalTo(LockPasswordlessActivity.MODE_EMAIL_MAGIC_LINK)));
         final ComponentName component = intent.getComponent();
         assertEquals(component.getClassName(), LockPasswordlessActivity.class.getCanonicalName());
+        assertThat(intent.getFlags(), is(equalTo(Intent.FLAG_ACTIVITY_NEW_TASK)));
     }
 
     @Test
@@ -140,6 +142,7 @@ public class LockReactModuleTest {
                 is(equalTo(LockPasswordlessActivity.MODE_SMS_CODE)));
         final ComponentName component = intent.getComponent();
         assertEquals(component.getClassName(), LockPasswordlessActivity.class.getCanonicalName());
+        assertThat(intent.getFlags(), is(equalTo(Intent.FLAG_ACTIVITY_NEW_TASK)));
     }
 
     @Test
@@ -153,6 +156,7 @@ public class LockReactModuleTest {
                 is(equalTo(LockPasswordlessActivity.MODE_SMS_MAGIC_LINK)));
         final ComponentName component = intent.getComponent();
         assertEquals(component.getClassName(), LockPasswordlessActivity.class.getCanonicalName());
+        assertThat(intent.getFlags(), is(equalTo(Intent.FLAG_ACTIVITY_NEW_TASK)));
     }
 
     @Test
@@ -203,8 +207,28 @@ public class LockReactModuleTest {
         verify(callback).invoke(captor.capture());
 
         List<Object> list = captor.getAllValues();
-        assertThat(list.get(0), is(notNullValue()));
-        /// TODO actually check that the first value is a string, i.e. the error message
+        assertThat((String) list.get(0), is(equalTo(module.MESSAGE_USER_CANCELLED)));
+        assertThat(list.get(1), is(nullValue()));
+        assertThat(list.get(2), is(nullValue()));
+
+        verifyNoMoreInteractions(callback);
+    }
+
+    @Test
+    public void shouldNotifySignUp() throws Exception {
+        module.init(initOptions("CLIENT_ID", "samples.auth0.com", null));
+        module.show(null, callback);
+
+        Intent result = new Intent(Lock.AUTHENTICATION_ACTION);
+
+        module.authenticationReceiver.onReceive(reactContext, result);
+
+        ArgumentCaptor<Object> captor = ArgumentCaptor.forClass(Object.class);
+
+        verify(callback).invoke(captor.capture());
+
+        List<Object> list = captor.getAllValues();
+        assertThat((String) list.get(0), is(equalTo(module.MESSAGE_USER_SIGNED_UP)));
         assertThat(list.get(1), is(nullValue()));
         assertThat(list.get(2), is(nullValue()));
 

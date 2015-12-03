@@ -66,6 +66,9 @@ public class LockReactModule extends ReactContextBaseJavaModule {
     private static final String EMAIL_KEY = "EMAIL";
     private static final String SMS_KEY = "SMS";
 
+    static final String MESSAGE_USER_SIGNED_UP = "User signed up";
+    static final String MESSAGE_USER_CANCELLED = "User cancelled";
+
     private final LocalBroadcastManager broadcastManager;
 
     Lock.Builder lockBuilder;
@@ -80,16 +83,14 @@ public class LockReactModule extends ReactContextBaseJavaModule {
 
         @Override
         protected void onSignUp() {
-            final String message = "User signed up";
-            Log.i(TAG, message);
-            authCallbackError(message);
+            Log.i(TAG, MESSAGE_USER_SIGNED_UP);
+            authCallbackError(MESSAGE_USER_SIGNED_UP);
         }
 
         @Override
         protected void onCancel() {
-            final String message = "User Cancelled";
-            Log.i(TAG, message);
-            authCallbackError(message);
+            Log.i(TAG, MESSAGE_USER_CANCELLED);
+            authCallbackError(MESSAGE_USER_CANCELLED);
         }
     };
 

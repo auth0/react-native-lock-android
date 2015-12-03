@@ -103,9 +103,9 @@ And you'll see Email Passwordless login screen
 ####.show(options, callback)
 Show Lock's authentication screen as a modal screen using the connections configured for your applications or the ones specified in the `options` parameter. This is the list of valid options:
 
-* **closable** (`boolean`): If Lock screen can be dismissed
-* **connections** (`[string]`): List of enabled connections to use for authentication. Must be enabled in your app's dashboard first.
-* **useMagicLink** (`boolean`): When using a passwordless connection, activate this option to send a Magic/App link instead of the code.
+* **closable** (`boolean`): If Lock screen can be dismissed. Default is `false`.
+* **connections** (`[string]`): List of enabled connections to use for authentication. Must be enabled in your app's dashboard first. If you leave it empty, Lock will use all the enabled connections.
+* **useMagicLink** (`boolean`): When using a passwordless connection, activate this option to send a Magic/App link instead of the code. Default is `false`.
 * **authParams** (`object`): Object with the parameters to be sent to the Authentication API, e.g. `scope`.
 
 The callback will have the error if anything went wrong or after a successful authentication, it will yield the user's profile info and tokens.

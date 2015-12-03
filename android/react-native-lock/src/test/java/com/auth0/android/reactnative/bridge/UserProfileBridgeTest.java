@@ -49,6 +49,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.TimeZone;
 
+import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 
@@ -133,10 +134,10 @@ public class UserProfileBridgeTest {
         UserProfileBridge userProfileBridge = new UserProfileBridge(userProfile);
         ReadableMap map = userProfileBridge.toMap();
 
-        assertThat(map.getString("email"), is("email-value"));
-        assertThat(map.getString("id"), is("id-value"));
-        assertThat(map.getString("name"), is("name-value"));
-        assertThat(map.getString("nickname"), is("nickname-value"));
-        assertThat(map.getString("createdAt"), is(sdf.format(now)));
+        assertThat(map.getString("email"), is(equalTo("email-value")));
+        assertThat(map.getString("id"), is(equalTo("id-value")));
+        assertThat(map.getString("name"), is(equalTo("name-value")));
+        assertThat(map.getString("nickname"), is(equalTo("nickname-value")));
+        assertThat(map.getString("createdAt"), is(equalTo(sdf.format(now))));
     }
 }

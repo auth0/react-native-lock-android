@@ -16,10 +16,30 @@
 
 Run `npm install --save react-native-lock-android` to add the package to your app's dependencies.
 
-You must also add the dependency in the `build.gradle` file inside the android folder:
+Then add the dependency in the `build.gradle` file of the android project:
 
 ```gradle
 compile 'com.auth0.android:lock-react-native'
+```
+
+You must also add the `LockReactPackage` to the `ReactInstanceManager` in the `onCreate` method of the `MainActivity`.
+
+```java
+public class MainActivity extends Activity implements DefaultHardwareBackBtnHandler {
+    ...
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        ...
+        mReactInstanceManager = ReactInstanceManager.builder()
+                /* ... */
+                .addPackage(new LockReactPackage())
+                /* ... */
+                .build();
+        ...
+    }
+    ...
+}
 ```
 
 Finally you should see the Lock.Android [docs](https://github.com/auth0/Lock.Android) to find out how to add the Lock activities to your `AndroidManifest.xml` file.

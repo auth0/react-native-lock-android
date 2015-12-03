@@ -25,6 +25,8 @@
 package com.auth0.android.reactnative;
 
 
+import com.auth0.core.Strategies;
+import com.auth0.identity.IdentityProvider;
 import com.facebook.react.ReactPackage;
 import com.facebook.react.bridge.JavaScriptModule;
 import com.facebook.react.bridge.NativeModule;
@@ -32,15 +34,32 @@ import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.uimanager.ViewManager;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class LockReactPackage implements ReactPackage {
+
+    Map<Strategies, IdentityProvider> providers;
+
+    /**
+     * Sets a native handler for a specific Identity Provider (IdP), e.g.: Facebook
+     *
+     * @param strategy Auth0 strategy to handle. (For all valid values check {@link com.auth0.core.Strategies}
+     * @param identityProvider IdP handler
+     */
+    public void addIdentityProvider(Strategies strategy, IdentityProvider identityProvider) {
+        if (providers == null) {
+            providers = new HashMap<>();
+        }
+        providers.put(strategy, identityProvider);
+    }
 
     @Override
     public List<NativeModule> createNativeModules(ReactApplicationContext reactContext) {
         List<NativeModule> modules = new ArrayList<>();
 
-        modules.add(new LockReactModule(reactContext));
+        modules.add(new LockReactModule(reactContext, providers));
 
         return modules;
     }

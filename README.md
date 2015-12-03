@@ -35,9 +35,15 @@ public class MainActivity extends Activity implements DefaultHardwareBackBtnHand
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ...
+        LockReactPackage lockReactPackage = new LockReactPackage();
+
+        /* If you would like to add native integrations, add them like this */
+        lockReactPackage.addIdentityProvider(Strategies.Facebook, new FacebookIdentityProvider(this));
+        lockReactPackage.addIdentityProvider(Strategies.GooglePlus, new GooglePlusIdentityProvider(this));
+        
         mReactInstanceManager = ReactInstanceManager.builder()
                 /* ... */
-                .addPackage(new LockReactPackage())
+                .addPackage(lockReactPackage)
                 /* ... */
                 .build();
         ...

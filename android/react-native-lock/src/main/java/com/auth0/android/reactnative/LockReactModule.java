@@ -36,8 +36,10 @@ import com.auth0.android.reactnative.bridge.InitOptions;
 import com.auth0.android.reactnative.bridge.ShowOptions;
 import com.auth0.android.reactnative.bridge.TokenBridge;
 import com.auth0.android.reactnative.bridge.UserProfileBridge;
+import com.auth0.core.Strategies;
 import com.auth0.core.Token;
 import com.auth0.core.UserProfile;
+import com.auth0.identity.IdentityProvider;
 import com.auth0.lock.Lock;
 import com.auth0.lock.LockActivity;
 import com.auth0.lock.LockContext;
@@ -72,6 +74,7 @@ public class LockReactModule extends ReactContextBaseJavaModule {
     private final LocalBroadcastManager broadcastManager;
 
     Lock.Builder lockBuilder;
+    Map<Strategies, IdentityProvider> providers;
 
     private Callback authCallback;
     AuthenticationReceiver authenticationReceiver = new AuthenticationReceiver() {
@@ -94,13 +97,18 @@ public class LockReactModule extends ReactContextBaseJavaModule {
         }
     };
 
-    public LockReactModule(ReactApplicationContext reactContext) {
-        this(reactContext, LocalBroadcastManager.getInstance(reactContext.getApplicationContext()));
+    public LockReactModule(ReactApplicationContext reactContext, Map<Strategies, IdentityProvider> providers) {
+        this(reactContext, LocalBroadcastManager.getInstance(reactContext.getApplicationContext()), providers);
     }
 
     LockReactModule(ReactApplicationContext reactApplicationContext, LocalBroadcastManager localBroadcastManager) {
+        this(reactApplicationContext, localBroadcastManager, null);
+    }
+
+    LockReactModule(ReactApplicationContext reactApplicationContext, LocalBroadcastManager localBroadcastManager, Map<Strategies, IdentityProvider> providers) {
         super(reactApplicationContext);
         this.broadcastManager = localBroadcastManager;
+        this.providers = providers;
     }
 
     @Override
@@ -126,6 +134,12 @@ public class LockReactModule extends ReactContextBaseJavaModule {
                 .clientId(initOptions.getClientId())
                 .domainUrl(initOptions.getDomain())
                 .configurationUrl(initOptions.getConfigurationDomain());
+
+        if (providers != null) {
+            for (Strategies strategy : providers.keySet()) {
+                lockBuilder.withIdentityProvider(strategy, providers.get(strategy));
+            }
+        }
     }
 
     @ReactMethod

@@ -39,41 +39,6 @@ import static org.hamcrest.Matchers.nullValue;
 import static org.junit.Assert.assertThat;
 
 
-
-/*
-    If we need to test something that uses a native lib, for example Arguments.createMap() we'll
-    have to add this before the class declaration:
-
-    @PrepareForTest({Arguments.class})
-    @PowerMockIgnore({"org.mockito.*", "org.robolectric.*", "android.*", "org.json.*"})
-    @RunWith(RobolectricTestRunner.class)
-
-    and inside the class:
-
-    @Rule
-    public PowerMockRule rule = new PowerMockRule();
-
-    @Before
-    public void prepareModules() {
-        PowerMockito.mockStatic(Arguments.class);
-        Mockito.when(Arguments.createArray()).thenAnswer(
-                new Answer<Object>() {
-                    @Override
-                    public Object answer(InvocationOnMock invocation) throws Throwable {
-                        return new SimpleArray();
-                    }
-                });
-
-        Mockito.when(Arguments.createMap()).thenAnswer(
-                new Answer<Object>() {
-                    @Override
-                    public Object answer(InvocationOnMock invocation) throws Throwable {
-                        return new SimpleMap();
-                    }
-                });
-    }
- */
-
 @RunWith(RobolectricGradleTestRunner.class)
 @Config(constants = BuildConfig.class, sdk = 18, manifest = Config.NONE)
 public class InitOptionsTest {
@@ -88,47 +53,47 @@ public class InitOptionsTest {
 
     @Test
     public void testAll() throws Exception {
-        WritableMap options = new SimpleMap();//Arguments.createMap();
+        WritableMap options = new SimpleMap();
         options.putString("clientId", "client-id-value");
         options.putString("domain", "domain-value");
         options.putString("configurationDomain", "configuration-domain-value");
 
         InitOptions initOptions = new InitOptions(options);
-        assertThat(initOptions.getClientId(), equalTo("client-id-value"));
-        assertThat(initOptions.getConfigurationDomain(), equalTo("configuration-domain-value"));
-        assertThat(initOptions.getDomain(), equalTo("domain-value"));
+        assertThat(initOptions.getClientId(), is(equalTo("client-id-value")));
+        assertThat(initOptions.getConfigurationDomain(), is(equalTo("configuration-domain-value")));
+        assertThat(initOptions.getDomain(), is(equalTo("domain-value")));
     }
 
     @Test
     public void testOnlyClientId() throws Exception {
-        WritableMap options = new SimpleMap();//Arguments.createMap();
+        WritableMap options = new SimpleMap();
         options.putString("clientId", "client-id-value");
 
         InitOptions initOptions = new InitOptions(options);
-        assertThat(initOptions.getClientId(), equalTo("client-id-value"));
+        assertThat(initOptions.getClientId(), is(equalTo("client-id-value")));
         assertThat(initOptions.getConfigurationDomain(), is(nullValue()));
         assertThat(initOptions.getDomain(), is(nullValue()));
     }
 
     @Test
     public void testOnlyDomain() throws Exception {
-        WritableMap options = new SimpleMap();//Arguments.createMap();
+        WritableMap options = new SimpleMap();
         options.putString("domain", "domain-value");
 
         InitOptions initOptions = new InitOptions(options);
         assertThat(initOptions.getClientId(), is(nullValue()));
         assertThat(initOptions.getConfigurationDomain(), is(nullValue()));
-        assertThat(initOptions.getDomain(), equalTo("domain-value"));
+        assertThat(initOptions.getDomain(), is(equalTo("domain-value")));
     }
 
     @Test
     public void testOnlyConfigurationDomain() throws Exception {
-        WritableMap options = new SimpleMap();//Arguments.createMap();
+        WritableMap options = new SimpleMap();
         options.putString("configurationDomain", "configuration-domain-value");
 
         InitOptions initOptions = new InitOptions(options);
         assertThat(initOptions.getClientId(), is(nullValue()));
-        assertThat(initOptions.getConfigurationDomain(), equalTo("configuration-domain-value"));
+        assertThat(initOptions.getConfigurationDomain(), is(equalTo("configuration-domain-value")));
         assertThat(initOptions.getDomain(), is(nullValue()));
     }
 }

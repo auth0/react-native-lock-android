@@ -43,6 +43,7 @@ import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.rule.PowerMockRule;
 import org.robolectric.RobolectricTestRunner;
 
+import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 
@@ -119,9 +120,9 @@ public class TokenBridgeTest {
 
         ReadableMap map = tokenBridge.toMap();
 
-        assertThat(map.getString("idToken"), is("id-token-value"));
-        assertThat(map.getString("accessToken"), is("access-token-value"));
-        assertThat(map.getString("type"), is("type-value"));
-        assertThat(map.getString("refreshToken"), is("refresh-token-value"));
+        assertThat(map.getString("idToken"), is(equalTo("id-token-value")));
+        assertThat(map.getString("accessToken"), is(equalTo("access-token-value")));
+        assertThat(map.getString("type"), is(equalTo("type-value")));
+        assertThat(map.getString("refreshToken"), is(equalTo("refresh-token-value")));
     }
 }

@@ -1,7 +1,5 @@
 apply plugin: 'com.android.library'
 
-//apply from: "../LockReact/android/app/react.gradle"
-
 android {
     compileSdkVersion compile.maxSdk
     buildToolsVersion compile.buildToolsVersion

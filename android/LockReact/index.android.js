@@ -17,7 +17,7 @@ var HeaderView = require('./header');
 var TokenView = require('./token');
 
 var Auth0Lock = require('react-native-lock-android');
-var lock = new Auth0Lock({clientId: "r7S3papUpoWEYpDzxxCjo9GbvUhR8Le8", domain: "nikolaseu-test.auth0.com"});
+var lock = new Auth0Lock({clientId: "<YOUR_AUTH0_CLIENT_ID>", domain: "<YOUR_AUTH0_DOMAIN>"});
 
 var LockReactApp = React.createClass({
   getInitialState: function() {
@@ -67,10 +67,7 @@ var LockReactApp = React.createClass({
   },
   _onShowLock: function() {
     lock.show({
-      //connections: ["passwordless"],
-      //connections: ["email"],
-      //connections: ["sms"],
-      //connections: ["touchid"],
+      connections: ["facebook", "twitter"],
       closable: true,
       authParams: {
         scope: "openid email offline_access",
@@ -109,6 +106,7 @@ var LockReactApp = React.createClass({
   _onShowLockEmail: function() {
     lock.show({
       connections: ["email"],
+      useMagicLink: true,
       closable: true,
       authParams: {
         scope: "openid email offline_access",
@@ -140,11 +138,8 @@ var styles = StyleSheet.create({
     flex: 1,
   },
   actionContainer: {
-    //flex: 1,
     flexDirection: 'column',
-    //alignItems: 'flex-end',
     justifyContent: 'center',
-    //flexWrap: 'wrap',
     backgroundColor: '#F5FCFF',
   },
   actionButton: {

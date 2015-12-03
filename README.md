@@ -1,22 +1,26 @@
 # react-native-lock-android
 
+[![License](http://img.shields.io/:license-mit-blue.svg?style=flat)](http://doge.mit-license.org)
 [![NPM version][npm-image]][npm-url]
-[![CI Status][travis-image]][travis-url]
+[![CI Status][travis-image-android]][travis-url-android]
 
 [Auth0](https://auth0.com) is an authentication broker that supports social identity providers as well as enterprise identity providers such as Active Directory, LDAP, Google Apps and Salesforce.
 
-**react-native-lock-android** is a wrapper around [Lock](https://github.com/auth0/Lock.Android) so it can be used from an Android React Native application
+**react-native-lock-android** is a wrapper around [Lock.Android](https://github.com/auth0/Lock.Android) so it can be used from an Android React Native application
+
 
 ## Requirements
 
-* Android API 16+ 
 * React Native
+* Android API 16+ 
+
 
 ## Installation
 
 Run `npm install --save react-native-lock-android` to add the package to your app's dependencies.
 
-Then add the dependency in the `build.gradle` file of the android project:
+You need to include the `com.auth0.android:lock-react-native` library in your android project.
+Add the dependency in the `build.gradle` file of the android project:
 
 ```gradle
 compile 'com.auth0.android:lock-react-native'
@@ -44,6 +48,7 @@ public class MainActivity extends Activity implements DefaultHardwareBackBtnHand
 
 Finally you should see the Lock.Android [docs](https://github.com/auth0/Lock.Android) to find out how to add the Lock activities to your `AndroidManifest.xml` file.
 
+
 ## Usage
 
 Let's require `react-native-lock-android` module:
@@ -68,7 +73,8 @@ lock.show({}, (err, profile, token) => {
 
 And you'll see our native login screen
 
-[![Lock.png](https://cdn.auth0.com/mobile-sdk-lock/lock-android-default.png)](https://auth0.com)
+[![Lock.png](http://blog.auth0.com.s3.amazonaws.com/Lock-Widget-Android-Screenshot.png)](https://auth0.com)
+
 
 ### SMS Passwordless
 
@@ -81,7 +87,8 @@ lock.show({
 ```
 And you'll see SMS Passwordless login screen
 
-[![Lock.png](https://cdn.auth0.com/mobile-sdk-lock/lock-android-pwdless-sms.png)](https://auth0.com)
+[![Lock.png](http://blog.auth0.com.s3.amazonaws.com/Lock-SMS-Android-Screenshot.png)](https://auth0.com)
+
 
 ### Email Passwordless
 
@@ -94,7 +101,8 @@ lock.show({
 ```
 And you'll see Email Passwordless login screen
 
-[![Lock.png](https://cdn.auth0.com/mobile-sdk-lock/lock-android-pwdless-email.png)](https://auth0.com)
+[![Lock.png](https://cdn.auth0.com/mobile-sdk-lock/lock-ios-pwdless-email.png)](https://auth0.com)
+
 
 ## API
 
@@ -141,5 +149,5 @@ react-native-lock-android is available under the MIT license. See the [LICENSE f
 <!-- Variables -->
 [npm-image]: https://img.shields.io/npm/v/react-native-lock-android.svg?style=flat
 [npm-url]: https://npmjs.org/package/react-native-lock-android
-[travis-image]: http://img.shields.io/travis/auth0/react-native-lock-android.svg?style=flat
-[travis-url]: https://travis-ci.org/auth0/react-native-lock-android
+[travis-image-android]: http://img.shields.io/travis/auth0/react-native-lock-android.svg?style=flat
+[travis-url-android]: https://travis-ci.org/auth0/react-native-lock-android

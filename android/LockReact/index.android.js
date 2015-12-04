@@ -67,7 +67,7 @@ var LockReactApp = React.createClass({
   },
   _onShowLock: function() {
     lock.show({
-      connections: ["facebook", "twitter"],
+      connections: ["google-oauth2", "facebook", "twitter"],
       closable: true,
       authParams: {
         scope: "openid email offline_access",

@@ -22,7 +22,7 @@
  * THE SOFTWARE.
  */
 
-package com.auth0.android.reactnative;
+package com.auth0.react;
 
 
 import com.auth0.core.Strategies;

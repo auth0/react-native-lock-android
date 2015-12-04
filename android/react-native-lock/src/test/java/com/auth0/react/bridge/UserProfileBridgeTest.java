@@ -1,5 +1,5 @@
 /*
- * TokenBridgeTest.java
+ * UserProfileBridgeTest.java
  *
  * Copyright (c) 2015 Auth0 (http://auth0.com)
  *
@@ -22,9 +22,9 @@
  * THE SOFTWARE.
  */
 
-package com.auth0.android.reactnative.bridge;
+package com.auth0.react.bridge;
 
-import com.auth0.core.Token;
+import com.auth0.core.UserProfile;
 import com.facebook.react.bridge.Arguments;
 import com.facebook.react.bridge.ReadableMap;
 import com.facebook.react.bridge.SimpleArray;
@@ -43,10 +43,15 @@ import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.rule.PowerMockRule;
 import org.robolectric.RobolectricTestRunner;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.TimeZone;
+
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
-
 
 /*
     If we need to test something that uses a native lib, for example Arguments.createMap() we'll
@@ -88,7 +93,7 @@ import static org.junit.Assert.assertThat;
 @PrepareForTest({Arguments.class})
 @PowerMockIgnore({"org.mockito.*", "org.robolectric.*", "android.*", "org.json.*"})
 @RunWith(RobolectricTestRunner.class)
-public class TokenBridgeTest {
+public class UserProfileBridgeTest {
 
     @Rule
     public PowerMockRule rule = new PowerMockRule();
@@ -115,14 +120,24 @@ public class TokenBridgeTest {
 
     @Test
     public void testAll() throws Exception {
-        Token token = new Token("id-token-value", "access-token-value", "type-value", "refresh-token-value");
-        TokenBridge tokenBridge = new TokenBridge(token);
+        Map<String, Object> userProfileMap = new HashMap<>();
+        userProfileMap.put("email", "email-value");
+        userProfileMap.put("user_id", "id-value");
+        userProfileMap.put("name", "name-value");
+        userProfileMap.put("nickname", "nickname-value");
+        Date now = new Date();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+        sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
+        userProfileMap.put("created_at", sdf.format(now));
+        UserProfile userProfile = new UserProfile(userProfileMap);
 
-        ReadableMap map = tokenBridge.toMap();
+        UserProfileBridge userProfileBridge = new UserProfileBridge(userProfile);
+        ReadableMap map = userProfileBridge.toMap();
 
-        assertThat(map.getString("idToken"), is(equalTo("id-token-value")));
-        assertThat(map.getString("accessToken"), is(equalTo("access-token-value")));
-        assertThat(map.getString("type"), is(equalTo("type-value")));
-        assertThat(map.getString("refreshToken"), is(equalTo("refresh-token-value")));
+        assertThat(map.getString("email"), is(equalTo("email-value")));
+        assertThat(map.getString("id"), is(equalTo("id-value")));
+        assertThat(map.getString("name"), is(equalTo("name-value")));
+        assertThat(map.getString("nickname"), is(equalTo("nickname-value")));
+        assertThat(map.getString("createdAt"), is(equalTo(sdf.format(now))));
     }
 }

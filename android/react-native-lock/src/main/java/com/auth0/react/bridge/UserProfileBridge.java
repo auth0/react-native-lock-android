@@ -22,7 +22,7 @@
  * THE SOFTWARE.
  */
 
-package com.auth0.android.reactnative.bridge;
+package com.auth0.react.bridge;
 
 
 import android.support.annotation.Nullable;

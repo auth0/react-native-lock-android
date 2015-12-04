@@ -1,5 +1,5 @@
 /*
- * TokenBridge.java
+ * InitOptions.java
  *
  * Copyright (c) 2015 Auth0 (http://auth0.com)
  *
@@ -22,37 +22,50 @@
  * THE SOFTWARE.
  */
 
-package com.auth0.android.reactnative.bridge;
+package com.auth0.react.bridge;
 
 
 import android.support.annotation.Nullable;
 
-import com.auth0.core.Token;
-import com.facebook.react.bridge.Arguments;
-import com.facebook.react.bridge.WritableMap;
+import com.facebook.react.bridge.ReadableMap;
 
-public class TokenBridge implements LockReactBridge {
+public class InitOptions {
 
-    private static final String ACCESS_TOKEN_KEY = "accessToken";
-    private static final String ID_TOKEN_KEY = "idToken";
-    private static final String REFRESH_TOKEN_KEY = "refreshToken";
-    private static final String TYPE_KEY = "type";
-    
-    private Token token;
+    private static final String CLIENT_ID_KEY = "clientId";
+    private static final String DOMAIN_KEY = "domain";
+    private static final String CONFIGURATION_DOMAIN_KEY = "configurationDomain";
 
-    public TokenBridge(@Nullable Token token) {
-        this.token = token;
+    private String clientId;
+    private String domain;
+    private String configurationDomain;
+
+    public InitOptions(@Nullable ReadableMap options) {
+        if (options == null) {
+            return;
+        }
+
+        if (options.hasKey(CLIENT_ID_KEY)) {
+            clientId = options.getString(CLIENT_ID_KEY);
+        }
+
+        if (options.hasKey(DOMAIN_KEY)) {
+            domain = options.getString(DOMAIN_KEY);
+        }
+
+        if (options.hasKey(CONFIGURATION_DOMAIN_KEY)) {
+            configurationDomain = options.getString(CONFIGURATION_DOMAIN_KEY);
+        }
     }
 
-    public WritableMap toMap() {
-        WritableMap tokenMap = null;
-        if (token != null) {
-            tokenMap = Arguments.createMap();
-            tokenMap.putString(ACCESS_TOKEN_KEY, token.getAccessToken());
-            tokenMap.putString(ID_TOKEN_KEY, token.getIdToken());
-            tokenMap.putString(REFRESH_TOKEN_KEY, token.getRefreshToken());
-            tokenMap.putString(TYPE_KEY, token.getType());
-        }
-        return tokenMap;
+    public String getClientId() {
+        return clientId;
+    }
+
+    public String getDomain() {
+        return domain;
+    }
+
+    public String getConfigurationDomain() {
+        return configurationDomain;
     }
 }

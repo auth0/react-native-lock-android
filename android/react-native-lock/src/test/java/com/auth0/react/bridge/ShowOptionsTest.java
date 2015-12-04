@@ -22,10 +22,10 @@
  * THE SOFTWARE.
  */
 
-package com.auth0.android.reactnative.bridge;
+package com.auth0.react.bridge;
 
-import com.auth0.android.reactnative.BuildConfig;
-import com.auth0.android.reactnative.LockReactModule;
+import com.auth0.react.BuildConfig;
+import com.auth0.react.LockReactModule;
 import com.facebook.react.bridge.SimpleArray;
 import com.facebook.react.bridge.SimpleMap;
 import com.facebook.react.bridge.WritableMap;

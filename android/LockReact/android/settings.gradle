@@ -1,4 +1,4 @@
-rootProject.name = 'LockReact'
+rootProject.name = 'lock-react'
 
 include ':app'
 include ':react-native-lock'

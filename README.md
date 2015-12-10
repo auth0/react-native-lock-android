@@ -11,7 +11,7 @@
 
 ## Requirements
 
-* React Native
+* React Native (tested on v0.16.0)
 * Android API 16+ 
 
 
@@ -34,13 +34,78 @@ public class MainActivity extends Activity implements DefaultHardwareBackBtnHand
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        ...        
+        mReactInstanceManager = ReactInstanceManager.builder()
+                /* ... */
+                .addPackage(new LockReactPackage())
+                /* ... */
+                .build();
+        ...
+    }
+    ...
+}
+```
+
+Finally you need to declare the Lock activities in your `AndroidManifest.xml` file.
+
+```xml
+<!--Auth0 Lock-->
+<activity
+  android:name="com.auth0.lock.LockActivity"
+  android:theme="@style/Lock.Theme"
+  android:screenOrientation="portrait"
+  android:launchMode="singleTask">
+  <intent-filter>
+    <action android:name="android.intent.action.VIEW"/>
+    <category android:name="android.intent.category.DEFAULT"/>
+    <category android:name="android.intent.category.BROWSABLE"/>
+    <data android:scheme="a0<INSERT_YOUR_APP_CLIENT_ID>" android:host="<INSERT_YOUR_DOMAIN>"/>
+  </intent-filter>
+</activity>
+<!--Auth0 Lock End-->
+<!--Auth0 Lock Embedded WebView-->
+<activity 
+    android:name="com.auth0.identity.web.WebViewActivity" 
+    android:theme="@style/Lock.Theme">
+</activity>
+<!--Auth0 Lock Embedded WebView End-->
+<!--Auth0 Lock Passwordless-->
+<activity
+    android:name="com.auth0.lock.passwordless.LockPasswordlessActivity"
+    android:theme="@style/Lock.Theme"
+    android:screenOrientation="portrait"
+    android:launchMode="singleTask">
+</activity>
+<activity 
+    android:name="com.auth0.lock.passwordless.CountryCodeActivity" 
+    android:theme="@style/Lock.Theme">
+</activity>
+<!--Auth0 Lock Passwordless End-->
+```
+
+> Pleaser remember to replace the values for your Auth0 client id and domain that you can get from [our dashboard](https://app.auth0.com/#/applications)
+
+> For more information and configuration options you should see the Lock.Android [docs](https://github.com/auth0/Lock.Android)
+
+### Native integrations
+
+If you need Facebook or Google+ native authentication please continue reading to learn how to configure them. Otherwise please go directly to the [usage](#usage)
+
+To allow native logins using other Android apps, e.g: Google+, Facebook, etc, you need to explicitly add them by calling `addIdentityProvider` in your `LockReactPackage` instance before adding it to the `ReactInstanceManager`.
+
+```java
+public class MainActivity extends Activity implements DefaultHardwareBackBtnHandler {
+    ...
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
         ...
         LockReactPackage lockReactPackage = new LockReactPackage();
 
         /* If you would like to add native integrations, add them here */
         lockReactPackage.addIdentityProvider(Strategies.Facebook, new FacebookIdentityProvider(this));
         lockReactPackage.addIdentityProvider(Strategies.GooglePlus, new GooglePlusIdentityProvider(this));
-        
+
         mReactInstanceManager = ReactInstanceManager.builder()
                 /* ... */
                 .addPackage(lockReactPackage)
@@ -52,8 +117,62 @@ public class MainActivity extends Activity implements DefaultHardwareBackBtnHand
 }
 ```
 
-Finally you should see the Lock.Android [docs](https://github.com/auth0/Lock.Android) to find out how to add the Lock activities to your `AndroidManifest.xml` file.
+Each native integration requires it's own configuration. If you added some of them please follow the corresponding instructions.
 
+
+#### Facebook
+
+Lock uses the native Facebook SDK to obtain the user's access token so you'll need to configure it using your Facebook App info. If you don't have one, please create a Facebook Application in [Facebook Dev Site](https://developers.facebook.com/apps). Remember to register the package name and hash of your android application. 
+
+Once you have your Facebook App, you need to enable and configure the connection in Facebook's Connection settings on your Auth0 account. You need to set up your FB app id and secret.
+
+Then add Lock Facebook's dependency to your `build.gradle`
+
+```gradle
+compile 'com.auth0.android:lock-facebook:2.3.+'
+```
+
+Finally in your project's `AndroidManifest.xml` add the following entries inside the `<application>` tag:
+
+```xml
+<activity android:name="com.facebook.FacebookActivity"
+          android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
+          android:theme="@android:style/Theme.Translucent.NoTitleBar"
+          android:label="@string/app_name" />
+<meta-data android:name="com.facebook.sdk.ApplicationId" android:value="@string/facebook_app_id"/>
+```
+
+The value `@string/facebook_app_id` is your Facebook Application ID that you can get from [Facebook Dev Site](https://developers.facebook.com/apps) after you create your Facebook Application. You could just add this value to your `strings.xml` like this:
+
+```xml
+<string name="facebook_app_id">YOUR_FB_APP_ID_GOES_HERE</string>
+```
+
+> For more information on how to configure this, please check [Facebook Getting Started Guide](https://developers.facebook.com/docs/android/getting-started).
+
+> For more information and configuration options you should see the Lock-Facebook.Android [docs](https://github.com/auth0/Lock-Facebook.Android)
+
+#### Google+
+
+First you'll need to register your application in Google+, to do it follow the instructions in Step 1 of this [guide](https://developers.google.com/+/mobile/android/getting-started). 
+
+You also need to enable the connection in your Auth0 dashboard.
+
+Then add Lock GooglePlus' dependency to your `build.gradle`
+
+```gradle
+compile 'com.auth0.android:lock-googleplus:2.3.+'
+```
+
+Finally in your project's `AndroidManifest.xml` add the following entries:
+
+```xml
+<uses-permission android:name="android.permission.GET_ACCOUNTS" />
+<uses-permission android:name="android.permission.USE_CREDENTIALS" />
+<meta-data android:name="com.google.android.gms.version" android:value="@integer/google_play_services_version" />
+```
+
+> For more information and configuration options you should see the Lock-GooglePlus.Android [docs](https://github.com/auth0/Lock-GooglePlus.Android)
 
 ## Usage
 
@@ -84,6 +203,8 @@ And you'll see our native login screen
 
 ### SMS Passwordless
 
+> In order to be able to authenticate the user, your Auth0 account must have the SMS connection enabled and configured in your [dashboard](https://manage.auth0.com/#/connections/passwordless)
+
 ```js
 lock.show({
   connections: ["sms"]
@@ -95,8 +216,9 @@ And you'll see SMS Passwordless login screen
 
 [![Lock.png](https://cdn.auth0.com/mobile-sdk-lock/lock-android-pwdless-sms.png)](https://auth0.com)
 
-
 ### Email Passwordless
+
+> In order to be able to authenticate the user, your Auth0 account must have the Email connection enabled and configured in your [dashboard](https://manage.auth0.com/#/connections/passwordless)
 
 ```js
 lock.show({
@@ -108,7 +230,6 @@ lock.show({
 And you'll see Email Passwordless login screen
 
 [![Lock.png](https://cdn.auth0.com/mobile-sdk-lock/lock-android-pwdless-email.png)](https://auth0.com)
-
 
 ## API
 

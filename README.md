@@ -124,6 +124,35 @@ Show Lock's authentication screen as a modal screen using the connections config
 
 The callback will have the error if anything went wrong or after a successful authentication, it will yield the user's profile info and tokens.
 
+## FAQ
+
+### Error: duplicate files during packaging of APK
+
+If you observe an error like this when trying to run the project:
+
+```
+Error: duplicate files during packaging of APK /<PATH>/android/app/build/outputs/apk/app-debug-unaligned.apk
+  Path in archive: META-INF/NOTICE
+  Origin 1: /<PATH>/.gradle/caches/modules-2/files-2.1/com.fasterxml.jackson.core/jackson-databind/2.4.1/f07c773f7b3a03c3801d405cadbdc93f7548e321/jackson-databind-2.4.1.jar
+  Origin 2: /<PATH>/.gradle/caches/modules-2/files-2.1/com.fasterxml.jackson.core/jackson-core/2.4.1/b130bcfb5a9c410c3cbd2e0adec9437e69a39e2c/jackson-core-2.4.1.jar
+You can ignore those files in your build.gradle:
+  android {
+    packagingOptions {
+      exclude 'META-INF/NOTICE'
+    }
+  }
+:app:packageDebug FAILED
+```
+
+You might want to follow the advice and ignore the files adding the following to the `build.gradle` of the 'app' module, inside the `android` section:
+
+```
+packagingOptions {
+    exclude 'META-INF/LICENSE'
+    exclude 'META-INF/NOTICE'
+}
+```
+
 ## Issue Reporting
 
 If you have found a bug or if you have a feature request, please report them at this repository issues section. Please do not report security vulnerabilities on the public GitHub issue tracker. The [Responsible Disclosure Program](https://auth0.com/whitehat) details the procedure for disclosing security issues.

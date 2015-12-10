@@ -55,12 +55,6 @@ Finally you need to declare the Lock activities in your `AndroidManifest.xml` fi
   android:theme="@style/Lock.Theme"
   android:screenOrientation="portrait"
   android:launchMode="singleTask">
-  <intent-filter>
-    <action android:name="android.intent.action.VIEW"/>
-    <category android:name="android.intent.category.DEFAULT"/>
-    <category android:name="android.intent.category.BROWSABLE"/>
-    <data android:scheme="a0<INSERT_YOUR_APP_CLIENT_ID>" android:host="<INSERT_YOUR_DOMAIN>"/>
-  </intent-filter>
 </activity>
 <!--Auth0 Lock End-->
 <!--Auth0 Lock Embedded WebView-->
@@ -83,13 +77,11 @@ Finally you need to declare the Lock activities in your `AndroidManifest.xml` fi
 <!--Auth0 Lock Passwordless End-->
 ```
 
-> Pleaser remember to replace the values for your Auth0 client id and domain that you can get from [our dashboard](https://app.auth0.com/#/applications)
-
 > For more information and configuration options you should see the Lock.Android [docs](https://github.com/auth0/Lock.Android)
 
 ### Native integrations
 
-If you need Facebook or Google+ native authentication please continue reading to learn how to configure them. Otherwise please go directly to the [usage](#usage)
+If you need Facebook or Google+ native authentication please continue reading to learn how to configure them. Otherwise please go directly to [usage](#usage)
 
 To allow native logins using other Android apps, e.g: Google+, Facebook, etc, you need to explicitly add them by calling `addIdentityProvider` in your `LockReactPackage` instance before adding it to the `ReactInstanceManager`.
 
@@ -265,7 +257,7 @@ You can ignore those files in your build.gradle:
 :app:packageDebug FAILED
 ```
 
-You might want to follow the advice and ignore the files adding the following to the `build.gradle` of the 'app' module, inside the `android` section:
+You must follow the advice and ignore the files adding the following to the `build.gradle` of the `app` module, inside the `android` section:
 
 ```
 packagingOptions {

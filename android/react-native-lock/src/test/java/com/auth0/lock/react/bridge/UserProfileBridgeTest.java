@@ -22,7 +22,7 @@
  * THE SOFTWARE.
  */
 
-package com.auth0.react.bridge;
+package com.auth0.lock.react.bridge;
 
 import com.auth0.core.UserProfile;
 import com.facebook.react.bridge.Arguments;

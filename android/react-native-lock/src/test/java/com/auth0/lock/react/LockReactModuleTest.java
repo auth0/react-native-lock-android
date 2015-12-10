@@ -22,7 +22,7 @@
  * THE SOFTWARE.
  */
 
-package com.auth0.react;
+package com.auth0.lock.react;
 
 import android.content.ComponentName;
 import android.content.Intent;
@@ -33,8 +33,9 @@ import com.auth0.core.UserProfile;
 import com.auth0.lock.Lock;
 import com.auth0.lock.LockActivity;
 import com.auth0.lock.passwordless.LockPasswordlessActivity;
-import com.auth0.react.bridge.TokenBridge;
-import com.auth0.react.bridge.UserProfileBridge;
+import com.auth0.lock.react.bridge.TokenBridge;
+import com.auth0.lock.react.bridge.UserProfileBridge;
+import com.auth0.react.BuildConfig;
 import com.facebook.react.bridge.Arguments;
 import com.facebook.react.bridge.Callback;
 import com.facebook.react.bridge.ReactApplicationContext;
@@ -69,14 +70,13 @@ import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.nullValue;
 import static org.junit.Assert.assertEquals;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.verifyNoMoreInteractions;
+import static org.mockito.Mockito.*;
 
 
 @PrepareForTest({Arguments.class})
 @PowerMockIgnore({"org.mockito.*", "org.robolectric.*", "android.*", "org.json.*"})
 @RunWith(RobolectricTestRunner.class)
-@Config(constants = BuildConfig.class, sdk = 18, manifest = Config.NONE)
+@Config(sdk = 18, manifest = Config.NONE)
 public class LockReactModuleTest {
 
     @Rule

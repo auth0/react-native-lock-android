@@ -101,6 +101,7 @@ public class LockReactModule extends ReactContextBaseJavaModule {
         this(reactContext, LocalBroadcastManager.getInstance(reactContext.getApplicationContext()), providers);
     }
 
+    @SuppressWarnings("unused")
     LockReactModule(ReactApplicationContext reactApplicationContext, LocalBroadcastManager localBroadcastManager) {
         this(reactApplicationContext, localBroadcastManager, null);
     }
@@ -111,6 +112,9 @@ public class LockReactModule extends ReactContextBaseJavaModule {
         this.providers = providers;
     }
 
+    /**
+     * @return a map of constants this module exports to JS
+     */
     @Override
     public Map<String, Object> getConstants() {
         final Map<String, Object> constants = new HashMap<>();
@@ -120,11 +124,24 @@ public class LockReactModule extends ReactContextBaseJavaModule {
         return constants;
     }
 
+    /**
+     * @return the name of this module. This will be the name used to {@code require()} this module
+     * from javascript.
+     */
     @Override
     public String getName() {
         return REACT_MODULE_NAME;
     }
 
+    /**
+     * This method is exported to JS but no used directly by the user. See auth0-lock.js
+     * Called from JS to configure the {@link com.auth0.lock.Lock.Builder} that will be used to
+     * initialize the {@link com.auth0.lock.Lock} instance.
+     *
+     * @param options the map with the values passed when invoked from JS. Some of the supported
+     *                fields are "clientId", "domain" and "configurationDomain"
+     *                @see com.auth0.lock.react.bridge.InitOptions
+     */
     @ReactMethod
     public void init(ReadableMap options) {
         InitOptions initOptions = new InitOptions(options);
@@ -142,6 +159,17 @@ public class LockReactModule extends ReactContextBaseJavaModule {
         }
     }
 
+    /**
+     * This method is exported to JS
+     * Called from JS to show the Lock.Android login/signup activities. It will display the
+     * corresponding activity based on the requested connections and other options.
+     *
+     * @param options the map with the values passed when invoked from JS. Some of the supported
+     *                fields are "closable", "connections", "useMagicLink" and "authParams"
+     *                @see com.auth0.lock.react.bridge.ShowOptions
+     * @param callback the JS callback that will be invoked with the results. It should be a function
+     *                 of the form callback(error, profile, token)
+     */
     @ReactMethod
     public void show(@Nullable ReadableMap options, Callback callback) {
         Context context = getReactApplicationContext();

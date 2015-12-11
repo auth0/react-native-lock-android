@@ -24,7 +24,7 @@
 
 package com.auth0.lock.react.bridge;
 
-import com.auth0.react.BuildConfig;
+import com.auth0.lock.react.BuildConfig;
 import com.auth0.lock.react.LockReactModule;
 import com.facebook.react.bridge.SimpleArray;
 import com.facebook.react.bridge.SimpleMap;

@@ -35,7 +35,6 @@ import com.auth0.lock.LockActivity;
 import com.auth0.lock.passwordless.LockPasswordlessActivity;
 import com.auth0.lock.react.bridge.TokenBridge;
 import com.auth0.lock.react.bridge.UserProfileBridge;
-import com.auth0.react.BuildConfig;
 import com.facebook.react.bridge.Arguments;
 import com.facebook.react.bridge.Callback;
 import com.facebook.react.bridge.ReactApplicationContext;
@@ -231,7 +230,7 @@ public class LockReactModuleTest {
         verify(callback).invoke(captor.capture());
 
         List<Object> list = captor.getAllValues();
-        assertThat((String) list.get(0), is(equalTo(module.MESSAGE_USER_CANCELLED)));
+        assertThat((String) list.get(0), is(equalTo(LockReactModule.MESSAGE_USER_CANCELLED)));
         assertThat(list.get(1), is(nullValue()));
         assertThat(list.get(2), is(nullValue()));
 
@@ -252,7 +251,7 @@ public class LockReactModuleTest {
         verify(callback).invoke(captor.capture());
 
         List<Object> list = captor.getAllValues();
-        assertThat((String) list.get(0), is(equalTo(module.MESSAGE_USER_SIGNED_UP)));
+        assertThat((String) list.get(0), is(equalTo(LockReactModule.MESSAGE_USER_SIGNED_UP)));
         assertThat(list.get(1), is(nullValue()));
         assertThat(list.get(2), is(nullValue()));
 

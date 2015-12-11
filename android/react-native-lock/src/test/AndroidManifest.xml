@@ -23,9 +23,5 @@
   -->
 
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="com.auth0.react">
-    <application android:allowBackup="true"
-                 android:label="@string/com_auth0_auth0_lock">
-
-    </application>
+          package="com.auth0.lock.react">
 </manifest>

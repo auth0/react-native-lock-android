@@ -6,8 +6,12 @@ android:
   - android-23
   - extra-google-m2repository
   - extra-android-m2repository
+env:
+  - TERM=dumb
+before_script:
+  - cd "android/LockReact/android"
 script:
-  - "cd android/LockReact/android/ && ./gradlew clean test --continue"
+  - ./gradlew clean :lock-react:test --continue
 branches:
   only:
   - master

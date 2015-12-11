@@ -11,7 +11,7 @@
 
 ## Requirements
 
-* React Native (tested on v0.16.0)
+* React Native 0.16
 * Android API 16+ 
 
 

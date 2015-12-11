@@ -21,7 +21,7 @@ allprojects {
 
 ext.libraries = [
         app_compat: 'com.android.support:appcompat-v7:23.1.1',
-        react_native: 'com.facebook.react:react-native:0.15.+',
+        react_native: 'com.facebook.react:react-native:0.16.+',
         testing: [
                 dependencies.create('junit:junit:4.11') {
                     exclude module: 'hamcrest-core'

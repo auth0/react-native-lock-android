@@ -1,5 +1,12 @@
 # Change Log
 
+## [0.0.2](https://github.com/auth0/react-native-lock-android/tree/0.0.2) (2015-12-14)
+[Full Changelog](https://github.com/auth0/react-native-lock-android/compare/0.0.1...0.0.2)
+
+**Merged pull requests:**
+
+- Do not depend on react-native [\#1](https://github.com/auth0/react-native-lock-android/pull/1) ([nikolaseu](https://github.com/nikolaseu))
+
 ## [0.0.1](https://github.com/auth0/react-native-lock-android/tree/0.0.1) (2015-12-10)
 
 

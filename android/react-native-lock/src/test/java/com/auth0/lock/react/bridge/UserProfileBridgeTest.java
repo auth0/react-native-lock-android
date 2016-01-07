@@ -135,7 +135,7 @@ public class UserProfileBridgeTest {
         ReadableMap map = userProfileBridge.toMap();
 
         assertThat(map.getString("email"), is(equalTo("email-value")));
-        assertThat(map.getString("id"), is(equalTo("id-value")));
+        assertThat(map.getString("userId"), is(equalTo("id-value")));
         assertThat(map.getString("name"), is(equalTo("name-value")));
         assertThat(map.getString("nickname"), is(equalTo("nickname-value")));
         assertThat(map.getString("createdAt"), is(equalTo(sdf.format(now))));

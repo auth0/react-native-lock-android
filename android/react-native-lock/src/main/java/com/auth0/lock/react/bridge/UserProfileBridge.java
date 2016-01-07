@@ -37,7 +37,7 @@ import java.util.TimeZone;
 public class UserProfileBridge implements LockReactBridge {
 
     private static final String EMAIL_KEY = "email";
-    private static final String ID_KEY = "id";
+    private static final String ID_KEY = "userId";
     private static final String NAME_KEY = "name";
     private static final String NICKNAME_KEY = "nickname";
     private static final String CREATED_AT_KEY = "createdAt";

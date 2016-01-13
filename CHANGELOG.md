@@ -1,5 +1,17 @@
 # Change Log
 
+## [0.0.3](https://github.com/auth0/react-native-lock-android/tree/0.0.3) (2016-01-13)
+[Full Changelog](https://github.com/auth0/react-native-lock-android/compare/0.0.2...0.0.3)
+
+**Closed issues:**
+
+- https://ask.auth0.com/t/react-native-facebook-lock-android-vs-ios-profile/1762 [\#2](https://github.com/auth0/react-native-lock-android/issues/2)
+
+**Merged pull requests:**
+
+- Update react-native lib and project to v0.17 [\#4](https://github.com/auth0/react-native-lock-android/pull/4) ([nikolaseu](https://github.com/nikolaseu))
+- Rename UserProfile JS field name: id -\> userId [\#3](https://github.com/auth0/react-native-lock-android/pull/3) ([nikolaseu](https://github.com/nikolaseu))
+
 ## [0.0.2](https://github.com/auth0/react-native-lock-android/tree/0.0.2) (2015-12-14)
 [Full Changelog](https://github.com/auth0/react-native-lock-android/compare/0.0.1...0.0.2)
 

@@ -21,9 +21,6 @@
     "touchid",
     "passwordless"
   ],
-  "peerDependencies": {
-    "react-native": "^0.17.0"
-  },
   "author": "Auth0",
   "license": "MIT",
   "bugs": {

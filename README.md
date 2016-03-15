@@ -15,38 +15,87 @@
 * Android API 16+ 
 
 
-## Installation
+## Setup
 
-Run `npm install --save react-native-lock-android` to add the package to your app's dependencies.
+There are six steps in the setup process
 
-Then include the `com.auth0.android:lock-react` library in your android project.
-Add the dependency in the `build.gradle` file of the android project:
+1. install module
+2. update `android/settings.gradle`
+3. update `android/app/build.gradle`
+4. register module in MainActivity.java
+5. declare the Lock activities in `AndroidManifest.xml`
+6. rebuild and restart package manager
 
-```gradle
-compile 'com.auth0.android:lock-react:+'
+##### Install module
+```bash
+npm install --save react-native-lock-android
 ```
 
-You must also add the `LockReactPackage` to the `ReactInstanceManager` in the `onCreate` method of the `MainActivity`.
+##### Update `android/settings.gradle`
 
-```java
-public class MainActivity extends Activity implements DefaultHardwareBackBtnHandler {
+```gradle
+...
+include ':react-native-lock-android'
+project(':react-native-lock-android').projectDir = new File(settingsDir, '../node_modules/react-native-lock-android')
+```
+
+##### Update `android/app/build.gradle`
+
+```gradle
+...
+dependencies {
     ...
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        ...        
-        mReactInstanceManager = ReactInstanceManager.builder()
-                /* ... */
-                .addPackage(new LockReactPackage())
-                /* ... */
-                .build();
-        ...
-    }
-    ...
+    compile 'com.auth0.android:lock-react:+'
 }
 ```
 
-Finally you need to declare the Lock activities in your `AndroidManifest.xml` file.
+* If you encounter `Error: duplicate files during packaging of APK`, add the following inside the `android` section of `android/app/build.gradle`:
+
+```gradle
+...
+android {
+    ...
+    packagingOptions {
+        exclude 'META-INF/LICENSE'
+        exclude 'META-INF/NOTICE'
+    }
+}
+```
+
+##### Register module in `MainActivity.java`
+
+```java
+import com.auth0.lock.react.LockReactPackage;  // <--- import
+
+public class MainActivity extends Activity implements DefaultHardwareBackBtnHandler {
+
+  ......
+  private static Activity mActivity = null;
+
+  @Override
+  protected void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    mReactRootView = new ReactRootView(this);
+
+    mActivity = this;
+    mReactInstanceManager = ReactInstanceManager.builder()
+      .setApplication(getApplication())
+      .setBundleAssetName("index.android.bundle")
+      .setJSMainModuleName("index.android")
+      .addPackage(new MainReactPackage())
+      .addPackage(new LockReactPackage())      // <------- add package
+      .setUseDeveloperSupport(BuildConfig.DEBUG)
+      .setInitialLifecycleState(LifecycleState.RESUMED)
+      .build();
+      ...
+  }
+
+  ......
+
+}
+```
+
+##### Declare Lock activities in `AndroidManifest.xml`
 
 ```xml
 <!--Auth0 Lock-->
@@ -78,6 +127,8 @@ Finally you need to declare the Lock activities in your `AndroidManifest.xml` fi
 ```
 
 > For more information and configuration options you should see the Lock.Android [docs](https://github.com/auth0/Lock.Android)
+
+##### Finally: run `react-native run-android` from your project root directory
 
 ### Native integrations
 

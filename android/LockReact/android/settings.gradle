@@ -1,5 +1,0 @@
-rootProject.name = 'lock-react'
-
-include ':app'
-include ':lock-react'
-project(':lock-react').projectDir = new File(rootProject.projectDir, '../../react-native-lock')
